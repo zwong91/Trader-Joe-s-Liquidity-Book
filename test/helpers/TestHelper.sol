@@ -25,7 +25,7 @@ import "test/mocks/ERC20.sol";
 import "test/mocks/FlashBorrower.sol";
 import "test/mocks/ERC20TransferTax.sol";
 
-import {AvalancheAddresses} from "../integration/Addresses.sol";
+import {BscAddresses} from "../integration/Addresses.sol";
 
 abstract contract TestHelper is Test {
     using Uint256x256Math for uint256;
@@ -86,7 +86,7 @@ abstract contract TestHelper is Test {
     ILBFactory internal factoryV2_1;
 
     function setUp() public virtual {
-        wnative = WNATIVE(AvalancheAddresses.WNATIVE);
+        wnative = WNATIVE(BscAddresses.WNATIVE);
         // If not forking, deploy mock
         if (address(wnative).code.length == 0) {
             vm.etch(address(wnative), address(new WNATIVE()).code);
@@ -112,12 +112,12 @@ abstract contract TestHelper is Test {
         vm.label(address(taxToken), "taxToken");
 
         // Get forked contracts
-        routerV1 = IJoeRouter02(AvalancheAddresses.JOE_V1_ROUTER);
-        factoryV1 = IJoeFactory(AvalancheAddresses.JOE_V1_FACTORY);
-        legacyRouterV2 = ILBLegacyRouter(AvalancheAddresses.JOE_V2_ROUTER);
-        legacyFactoryV2 = ILBLegacyFactory(AvalancheAddresses.JOE_V2_FACTORY);
-        factoryV2_1 = ILBFactory(AvalancheAddresses.JOE_V2_1_FACTORY);
-        routerV2_1 = ILBRouter(AvalancheAddresses.JOE_V2_1_ROUTER);
+        routerV1 = IJoeRouter02(BscAddresses.JOE_V1_ROUTER);
+        factoryV1 = IJoeFactory(BscAddresses.JOE_V1_FACTORY);
+        legacyRouterV2 = ILBLegacyRouter(BscAddresses.JOE_V2_ROUTER);
+        legacyFactoryV2 = ILBLegacyFactory(BscAddresses.JOE_V2_FACTORY);
+        factoryV2_1 = ILBFactory(BscAddresses.JOE_V2_1_FACTORY);
+        routerV2_1 = ILBRouter(BscAddresses.JOE_V2_1_ROUTER);
 
         // Create factory
         factory = new LBFactory(DEV, DEV, DEFAULT_FLASHLOAN_FEE);

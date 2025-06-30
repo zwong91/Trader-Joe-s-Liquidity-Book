@@ -17,9 +17,13 @@ POOL_SCRIPT := script/create-pool.s.sol
 WRAP_BNB_SCRIPT := script/wrap-bnb.s.sol
 WHITELIST_SCRIPT := script/whitelist-quote-asset.s.sol
 
-.PHONY: all build clean deploy verify pool whitelist
+
+.PHONY: all build clean deploy verify pool whitelist wrap-bnb test
+
 
 all: build
+test:
+	forge test -vvv
 
 build:
 	forge build

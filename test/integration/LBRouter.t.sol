@@ -15,7 +15,7 @@ contract LiquidityBinRouterForkTest is TestHelper {
     using Utils for ILBRouter.LiquidityParameters;
 
     function setUp() public override {
-        vm.createSelectFork(vm.rpcUrl("avalanche"), 46012280);
+        vm.createSelectFork(vm.rpcUrl("bsc_testnet"), 46012280);
         super.setUp();
 
         uint256 liquidityAmount = 1e24;
@@ -38,7 +38,7 @@ contract LiquidityBinRouterForkTest is TestHelper {
             block.timestamp + 1
         );
 
-        vm.startPrank(AvalancheAddresses.V2_FACTORY_OWNER);
+        vm.startPrank(BscAddresses.V2_FACTORY_OWNER);
         legacyFactoryV2.addQuoteAsset(usdc);
         legacyFactoryV2.createLBPair(wnative, usdc, ID_ONE, DEFAULT_BIN_STEP); // 1 NATIVE = 1 USDC
         vm.stopPrank();

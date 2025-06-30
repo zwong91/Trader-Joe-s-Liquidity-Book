@@ -18,23 +18,23 @@ contract LiquidityBinQuoterPriorityTest is Test {
     LBQuoter internal oldQuoter = LBQuoter(0x64b57F4249aA99a812212cee7DAEFEDC40B203cD);
 
     function setUp() public {
-        vm.createSelectFork(vm.rpcUrl("avalanche"), 33313442);
+        vm.createSelectFork(vm.rpcUrl("bsc_testnet"), 33313442);
 
         newQuoter = new LBQuoter(
-            AvalancheAddresses.JOE_V1_FACTORY,
-            AvalancheAddresses.JOE_V2_FACTORY,
-            AvalancheAddresses.JOE_V2_1_FACTORY,
+            BscAddresses.JOE_V1_FACTORY,
+            BscAddresses.JOE_V2_FACTORY,
+            BscAddresses.JOE_V2_1_FACTORY,
             factory,
-            AvalancheAddresses.JOE_V2_ROUTER,
-            AvalancheAddresses.JOE_V2_1_ROUTER,
+            BscAddresses.JOE_V2_ROUTER,
+            BscAddresses.JOE_V2_1_ROUTER,
             router
         );
     }
 
     function test_QuoteFromAmountIn() public view {
         address[] memory route = new address[](2);
-        route[0] = address(AvalancheAddresses.USDT);
-        route[1] = address(AvalancheAddresses.USDC);
+        route[0] = address(BscAddresses.USDT);
+        route[1] = address(BscAddresses.USDC);
 
         uint128 amountIn = 1e6;
 
@@ -68,8 +68,8 @@ contract LiquidityBinQuoterPriorityTest is Test {
 
         assertEq(newQuote.fees[0], oldQuote.fees[0], "test_QuoteFromAmountIn::12");
 
-        route[0] = address(AvalancheAddresses.USDC);
-        route[1] = address(AvalancheAddresses.USDT);
+        route[0] = address(BscAddresses.USDC);
+        route[1] = address(BscAddresses.USDT);
 
         newQuote = newQuoter.findBestPathFromAmountIn(route, amountIn);
         oldQuote = oldQuoter.findBestPathFromAmountIn(route, amountIn);
@@ -104,8 +104,8 @@ contract LiquidityBinQuoterPriorityTest is Test {
 
     function test_QuoteFromAmounOut() public view {
         address[] memory route = new address[](2);
-        route[0] = address(AvalancheAddresses.USDC);
-        route[1] = address(AvalancheAddresses.USDT);
+        route[0] = address(BscAddresses.USDC);
+        route[1] = address(BscAddresses.USDT);
 
         uint128 amountOut = 1e6;
 
@@ -139,8 +139,8 @@ contract LiquidityBinQuoterPriorityTest is Test {
 
         assertEq(newQuote.fees[0], oldQuote.fees[0], "test_QuoteFromAmounOut::12");
 
-        route[0] = address(AvalancheAddresses.USDT);
-        route[1] = address(AvalancheAddresses.USDC);
+        route[0] = address(BscAddresses.USDT);
+        route[1] = address(BscAddresses.USDC);
 
         newQuote = newQuoter.findBestPathFromAmountOut(route, amountOut);
         oldQuote = oldQuoter.findBestPathFromAmountOut(route, amountOut);
