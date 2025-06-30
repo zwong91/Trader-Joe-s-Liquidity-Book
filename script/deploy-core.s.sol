@@ -35,7 +35,7 @@ contract CoreDeployer is Script {
 
     function run() public {
         string memory json = vm.readFile("script/config/deployments.json");
-        address deployer = vm.rememberKey(vm.envUint("DEPLOYER_PRIVATE_KEY"));
+        address deployer = vm.rememberKey(vm.envUint("PRIVATE_KEY"));
 
         console.log("Deployer address: %s", deployer);
 

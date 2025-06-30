@@ -20,7 +20,6 @@ contract WrapBNBScript is Script {
         
         // Wrap 0.2 BNB to get WBNB
         uint256 amountToWrap = 0.2 ether;
-        
         console.log("Wrapping BNB to WBNB...");
         console.log("Amount to wrap:", amountToWrap);
         console.log("Current BNB balance:", address(msg.sender).balance);

@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
 import "../src/interfaces/ILBRouter.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract TestSwapScript is Script {
+contract SwapScript is Script {
     address constant ROUTER = 0xe98efCE22A8Ec0dd5dDF6C1A81B6ADD740176E98;
     address constant WBNB = 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd;
     address constant USDT = 0x337610d27c682E347C9cD60BD4b3b107C9d34dDd;
     
     function run() external {
-        uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
         
         ILBRouter router = ILBRouter(ROUTER);
