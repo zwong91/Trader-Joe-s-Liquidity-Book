@@ -1,6 +1,52 @@
 {
-    "solidity.formatter": "forge",
-    "slither.solcPath": "",
-    "slither.hiddenDetectors": [],
-    "coverage-gutters.showLineCoverage": true
+  "solidity.formatter": "forge",
+  "slither.solcPath": "",
+  "slither.hiddenDetectors": [],
+  "coverage-gutters.showLineCoverage": true,
+
+  // TypeScript/JavaScript 设置
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "git.allowForcePush": true,
+  "git.autoRepositoryDetection": "subFolders",
+  "git.autoStash": true,
+  "git.confirmForcePush": false,
+  "git.confirmSync": false,
+  "git.enableCommitSigning": false,
+  "git.ignoredRepositories": [".vscode"],
+  "git.inputValidationLength": 80,
+  "git.inputValidationSubjectLength": 80,
+  "git.pruneOnFetch": true,
+  "git.pullBeforeCheckout": true,
+  "git.repositoryScanMaxDepth": 4,
+  "git.timeline.showUncommitted": true,
+
+  // Copilot 详细配置
+  "github.copilot.chat.codeGeneration.instructions": [
+    { "file": ".prettierrc" },
+    { "file": "copilot/copilot-instructions.md" },
+    { "text": "Dont apologize. Dont apologize. Dont apologize." }
+  ],
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    { "file": "copilot/copilot-commit-message-instructions.md" }
+  ],
+  "github.copilot.chat.reviewSelection.instructions": [
+    { "file": "copilot/copilot-instructions.md" }
+  ],
+  "github.copilot.chat.testGeneration.instructions": [
+    { "file": ".prettierrc" }
+  ],
+  "github.copilot.enable": {
+    "*": true,
+    "markdown": true,
+    "plaintext": true,
+    "scminput": true
+  },
+  "github.copilot.chat.editor.temporalContext.enabled": true,
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  }
 }
