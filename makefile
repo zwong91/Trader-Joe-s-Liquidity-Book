@@ -1,3 +1,4 @@
+
 # Makefile
 
 # 从 .env 文件中读取变量
@@ -18,12 +19,15 @@ WRAP_BNB_SCRIPT := script/wrap-bnb.s.sol
 WHITELIST_SCRIPT := script/whitelist-quote-asset.s.sol
 
 
-.PHONY: all build clean deploy verify pool whitelist wrap-bnb test
+.PHONY: all build coverage clean deploy verify pool whitelist wrap-bnb clone test
 
 
 all: build
 test:
 	forge test -vvv
+
+coverage:
+    forge coverage
 
 build:
 	forge build
@@ -31,11 +35,17 @@ build:
 clean:
 	forge clean
 
+local-deploy:
+	forge script $(DEPLOY_SCRIPT) --fork-url http://localhost:8545 --broadcast --interactives 1
+
 deploy:
 	forge script $(DEPLOY_SCRIPT) --rpc-url $(RPC_URL) --broadcast --verify
 
 verify:
-	forge verify-contract --chain-id 97 --etherscan-api-key $(BSCSCAN_API_KEY)
+	forge verify-contract --chain-id 97 --etherscan-api-key $(ETHERSCAN_API_KEY)
+
+clone:
+	forge clone --chain bsc-testnet --etherscan-api-key $(ETHERSCAN_API_KEY) 0x7D73A6eFB91C89502331b2137c2803408838218b DLMM
 
 pool:
 	forge script $(POOL_SCRIPT):TestPoolScript --rpc-url $(RPC_URL) --broadcast

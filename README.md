@@ -106,7 +106,7 @@ Create a `.env` file with:
 
 ```
 PRIVATE_KEY=0xYourPrivateKeyHere
-BSCSCAN_API_KEY=YourBSCScanApiKeyHere
+ETHERSCAN_API_KEY=YourBSCScanApiKeyHere
 ```
 
 ### Network Configuration
