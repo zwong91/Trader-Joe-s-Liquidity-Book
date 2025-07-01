@@ -27,7 +27,7 @@ test:
 	forge test -vvv
 
 coverage:
-    forge coverage
+	forge coverage
 
 build:
 	forge build
