@@ -15,7 +15,7 @@ contract LiquidityBinRouterForkTest is TestHelper {
     using Utils for ILBRouter.LiquidityParameters;
 
     function setUp() public override {
-        vm.createSelectFork(vm.rpcUrl("bsc_testnet"), 46012280);
+        vm.createSelectFork(vm.rpcUrl("bsc_testnet"), 44002280);
         super.setUp();
 
         uint256 liquidityAmount = 1e24;

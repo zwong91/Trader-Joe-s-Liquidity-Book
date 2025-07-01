@@ -8,8 +8,8 @@ import "../helpers/TestHelper.sol";
  * Makes sure that the new quoter picks the version 2.1 over the version 2 if both outputs are exactly the same
  */
 contract LiquidityBinQuoterPriorityTest is Test {
-    address internal constant factory = 0x8e42f2F4101563bF679975178e880FD87d3eFd4e;
-    address internal constant router = 0xb4315e873dBcf96Ffd0acd8EA43f689D8c20fB30;
+    address internal constant factory = 0x7D73A6eFB91C89502331b2137c2803408838218b;
+    address internal constant router = 0xe98efCE22A8Ec0dd5dDF6C1A81B6ADD740176E98;
 
     address internal constant legacyUsdcUsdtPair = 0x1D7A1a79e2b4Ef88D2323f3845246D24a3c20F1d;
     address internal constant newUsdcUsdtPair = 0x9B2Cc8E6a2Bbb56d6bE4682891a91B0e48633c72;

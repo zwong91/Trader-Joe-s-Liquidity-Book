@@ -20,10 +20,11 @@ contract LiquidityBinQuoterTest is TestHelper {
 
     uint256 private defaultBaseFee = DEFAULT_BIN_STEP * uint256(DEFAULT_BASE_FACTOR) * 1e10;
 
-    address wethe = 0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB;
+    // BNB Chain WETH (WETH9) address
+    address weth9 = 0x2170Ed0880ac9A755fd29B2688956BD959F933F8;
 
     function setUp() public override {
-        vm.createSelectFork(vm.rpcUrl("bsc_testnet"), 46012280);
+        vm.createSelectFork(vm.rpcUrl("bsc_testnet"), 44002280);
         super.setUp();
 
         uint256 lowLiquidityAmount = 1e18;
@@ -293,7 +294,7 @@ contract LiquidityBinQuoterTest is TestHelper {
         // WETH/WAVAX, V2.1 with high liquidity
         address[] memory route = new address[](2);
         route[0] = address(wnative);
-        route[1] = address(wethe);
+        route[1] = address(weth9);
 
         uint256 price = 103.5e18; // 103.5 avax for 1 weth
 
