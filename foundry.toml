@@ -5,9 +5,11 @@ libs = ['lib']
 solc_version = "0.8.20"
 evm_version = 'paris' 
 optimizer = true
-optimizer_runs = 800
+optimizer_runs = 20_000
 
 fs_permissions = [{ access = "read", path = "./"}]
+
+dynamic_test_linking = true
 
 [fuzz]
 runs = 1024
