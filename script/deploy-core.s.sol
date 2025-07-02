@@ -14,16 +14,11 @@ contract DeployAllVersions is Script {
     uint256 private constant FLASHLOAN_FEE = 5e12;
 
     struct Deployment {
-        address factory_v1;
-        address factory_v2;
-        address factory_v2_1;
-        address factory_v2_2;
-        address router_v1;
-        address router_v2;
-        address router_v2_1;
-        address router_v2_2;
-        address quoter;
+        address factoryV2_1;
+        address factoryV2_2;
         address multisig;
+        address routerV2_1;
+        address routerV2_2;
         address w_native;
     }
 
@@ -53,11 +48,10 @@ contract DeployAllVersions is Script {
         console.log("Deployer balance: %s ETH", deployer.balance / 1e18);
 
         for (uint256 i = 0; i < chains.length; i++) {
-            bytes memory raw = stdJson.parseRaw(
-                json,
-                string(abi.encodePacked(".", chains[i]))
-            );
-            Deployment memory deployment = abi.decode(raw, (Deployment));
+            bytes memory rawDeploymentData = json.parseRaw(string(abi.encodePacked(".", chains[i])));
+            Deployment memory deployment = abi.decode(rawDeploymentData, (Deployment));
+            
+            console.log("w_native: %s", deployment.w_native);
             console.log("multisig: %s", deployment.multisig);
             // Validate configuration
             require(deployment.w_native != address(0), "Invalid w_native address");
