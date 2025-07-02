@@ -3,9 +3,10 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 solc_version = "0.8.20"
-evm_version = 'paris' 
+evm_version = 'paris'
+via_ir = true
 optimizer = true
-optimizer_runs = 20_000
+optimizer_runs = 1000
 
 fs_permissions = [{ access = "read", path = "./"}]
 
@@ -15,11 +16,11 @@ dynamic_test_linking = true
 runs = 1024
 
 [rpc_endpoints]
-bsc_testnet = "https://data-seed-prebsc-1-s1.bnbchain.org:8545"
-bsc = "https://bsc-dataseed.bnbchain.org"
+bsc_testnet = "https://bsc-testnet.infura.io/v3/402b910bd7e24d2a866ac48ab3741e75"
+bsc = "https://bsc-mainnet.infura.io/v3/402b910bd7e24d2a866ac48ab3741e75"
 
 [etherscan]
-bsc = { key = "${ETHERSCAN_API_KEY}", chain = 56 }
-bsc_testnet = { key = "${ETHERSCAN_API_KEY}", chain = 97 }
+bsc = { key = "${ETHERSCAN_API_KEY}", url = "https://api.etherscan.io/v2/api?chainid=56" }
+bsc_testnet = { key = "${ETHERSCAN_API_KEY}", url = "https://api.etherscan.io/v2/api?chainid=97" }
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

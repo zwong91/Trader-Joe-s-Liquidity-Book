@@ -33,8 +33,8 @@ contract LiquidityBinQuoterPriorityTest is Test {
 
     function test_QuoteFromAmountIn() public view {
         address[] memory route = new address[](2);
-        route[0] = address(BscAddresses.USDT);
-        route[1] = address(BscAddresses.USDC);
+        route[0] = address(BscAddresses.USDC);
+        route[1] = address(BscAddresses.USDT);
 
         uint128 amountIn = 1e6;
 

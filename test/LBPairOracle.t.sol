@@ -185,29 +185,40 @@ contract LBPairOracleTest is TestHelper {
     }
 
     function test_MaxLengthOracle() external {
+        uint16 maxSamples = 65535;
+        uint16 batchSize = 2000; // 每批写入2000个样本，避免OOG
+        uint16 written = 0;
+
         deal(address(wnative), BOB, 1e36);
         deal(address(usdc), BOB, 1e36);
 
-        pairWnative.increaseOracleLength(65535);
+        pairWnative.increaseOracleLength(maxSamples);
 
         vm.warp(1_000);
 
         vm.startPrank(BOB);
-        for (uint256 i = 0; i < 65535; i++) {
-            wnative.transfer(address(pairWnative), 1e10);
-            pairWnative.swap(true, BOB);
-
-            vm.warp(block.timestamp + 121);
+        while (written < maxSamples) {
+            uint16 toWrite = maxSamples - written;
+            if (toWrite > batchSize) {
+                toWrite = batchSize;
+            }
+            for (uint16 i = 0; i < toWrite; i++) {
+                wnative.transfer(address(pairWnative), 1e10);
+                pairWnative.swap(true, BOB);
+                vm.warp(block.timestamp + 121);
+            }
+            written += toWrite;
         }
+
         vm.stopPrank();
 
         (, uint256 size, uint256 activeSize, uint256 lastUpdated, uint256 firstTimestamp) =
             pairWnative.getOracleParameters();
 
-        assertEq(size, 65535, "test_MaxLengthOracle::1");
-        assertEq(activeSize, 65535, "test_MaxLengthOracle::2");
+        assertEq(size, maxSamples, "test_MaxLengthOracle::1");
+        assertEq(activeSize, maxSamples, "test_MaxLengthOracle::2");
         assertEq(lastUpdated, block.timestamp - 121, "test_MaxLengthOracle::3");
-        assertEq(firstTimestamp, block.timestamp - 65535 * 121, "test_MaxLengthOracle::4");
+        assertEq(firstTimestamp, block.timestamp - maxSamples * 121, "test_MaxLengthOracle::4");
 
         uint24 activeId = pairWnative.getActiveId();
 

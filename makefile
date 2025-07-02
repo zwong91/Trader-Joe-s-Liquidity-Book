@@ -39,7 +39,7 @@ local-deploy:
 	forge script $(DEPLOY_SCRIPT) --fork-url http://localhost:8545 --broadcast --interactives 1
 
 deploy:
-	forge script $(DEPLOY_SCRIPT) --rpc-url $(RPC_URL) --broadcast --verify
+	forge script $(DEPLOY_SCRIPT) --rpc-url $(RPC_URL) --broadcast --verify --etherscan-api-key $(ETHERSCAN_API_KEY)
 
 verify:
 	forge verify-contract --chain-id 97 --etherscan-api-key $(ETHERSCAN_API_KEY)
