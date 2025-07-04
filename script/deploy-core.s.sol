@@ -32,7 +32,7 @@ contract DeployAllVersions is Script {
         LBQuoter quoter;
     }
 
-    string[] chains = ["local", "bnb_smart_chain_testnet"];
+    string[] chains = ["bnb_smart_chain_testnet"];
 
     function setUp() public {
         _setupBSCTestnet();
