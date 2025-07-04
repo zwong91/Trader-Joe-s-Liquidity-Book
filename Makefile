@@ -36,7 +36,7 @@ clean:
 	forge clean
 
 local-deploy:
-	forge script $(DEPLOY_SCRIPT) --fork-url http://localhost:8545 --broadcast --interactives 1
+	forge script $(DEPLOY_SCRIPT) --rpc-url http://localhost:8545 --broadcast --interactives 1
 
 deploy:
 	forge script $(DEPLOY_SCRIPT) --rpc-url $(RPC_URL) --broadcast

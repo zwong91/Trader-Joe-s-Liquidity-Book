@@ -32,7 +32,7 @@ contract DeployAllVersions is Script {
         LBQuoter quoter;
     }
 
-    string[] chains = ["bnb_smart_chain_testnet"];
+    string[] chains = ["local", "bnb_smart_chain_testnet"];
 
     function setUp() public {
         _setupBSCTestnet();
@@ -41,6 +41,7 @@ contract DeployAllVersions is Script {
     function run() public {
         string memory json = vm.readFile("script/config/deployments.json");
 
+        // Use msg.sender which will be set by forge script --private-key
         address deployer = vm.rememberKey(vm.envUint("PRIVATE_KEY"));
 
         console.log("=== LB Protocol Deployment ===");
@@ -197,10 +198,18 @@ contract DeployAllVersions is Script {
         console.log("\n--- Transferring Ownership ---");
         vm.startBroadcast();
 
-        console.log("Transferring ownership to multisig: %s", multisig);
+        console.log("Starting ownership transfer to multisig: %s", multisig);
         deployed.factoryV2_1.transferOwnership(multisig);
         deployed.factoryV2_2.transferOwnership(multisig);
-        console.log("Ownership transferred successfully");
+        
+        vm.stopBroadcast();
+        
+        // Switch to multisig to accept ownership
+        vm.startBroadcast(multisig);
+        console.log("Accepting ownership as multisig...");
+        deployed.factoryV2_1.acceptOwnership();
+        deployed.factoryV2_2.acceptOwnership();
+        console.log("Ownership transfer completed successfully");
 
         vm.stopBroadcast();
     }
