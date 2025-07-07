@@ -32,10 +32,10 @@ contract DeployAllVersions is Script {
         LBQuoter quoter;
     }
 
-    string[] chains = ["bnb_smart_chain_testnet"];
+    string[] chains = ["bnb_smart_chain"];
 
     function setUp() public {
-        _setupBSCTestnet();
+        _setupBSC();
     }
 
     function run() public {
@@ -51,7 +51,7 @@ contract DeployAllVersions is Script {
         for (uint256 i = 0; i < chains.length; i++) {
             bytes memory rawDeploymentData = json.parseRaw(string(abi.encodePacked(".", chains[i])));
             Deployment memory deployment = abi.decode(rawDeploymentData, (Deployment));
-            
+
             console.log("w_native: %s", deployment.w_native);
             console.log("multisig: %s", deployment.multisig);
             // Validate configuration
@@ -60,27 +60,27 @@ contract DeployAllVersions is Script {
 
             vm.createSelectFork(StdChains.getChain(chains[i]).rpcUrl);
             console.log("\nDeploying on chain: %s (ID: %s)", chains[i], vm.toString(block.chainid));
-            
+
             // Deploy all contracts
             DeployedContracts memory deployed = _deployContracts(deployer, deployment);
-            
+
             // Configure contracts
             _configureContracts(deployed, deployment);
-            
+
             // Transfer ownership
             _transferOwnership(deployed, deployment.multisig);
-            
+
             // Verify deployments
             _verifyDeployments(deployed, deployment);
-            
+
             // Print deployment summary
             _printDeploymentSummary(chains[i], deployed, deployment);
         }
     }
 
-    function _deployContracts(address deployer, Deployment memory deployment) 
-        private 
-        returns (DeployedContracts memory deployed) 
+    function _deployContracts(address deployer, Deployment memory deployment)
+        private
+        returns (DeployedContracts memory deployed)
     {
         console.log("\n--- Deploying Contracts ---");
         vm.startBroadcast(deployer);
@@ -152,7 +152,7 @@ contract DeployAllVersions is Script {
 
     function _configureContracts(DeployedContracts memory deployed, Deployment memory deployment) private {
         console.log("\n--- Configuring Contracts ---");
-        
+
         vm.startBroadcast();
 
         // Set pair implementations
@@ -177,7 +177,7 @@ contract DeployAllVersions is Script {
     function _configurePresets(LBFactory factory) private {
         uint256[] memory presetList = BipsConfig.getPresetList();
         console.log("Configuring %s presets for factory %s", presetList.length, address(factory));
-        
+
         for (uint256 j = 0; j < presetList.length; j++) {
             BipsConfig.FactoryPreset memory preset = BipsConfig.getPreset(presetList[j]);
             factory.setPreset(
@@ -201,9 +201,9 @@ contract DeployAllVersions is Script {
         console.log("Starting ownership transfer to multisig: %s", multisig);
         deployed.factoryV2_1.transferOwnership(multisig);
         deployed.factoryV2_2.transferOwnership(multisig);
-        
+
         vm.stopBroadcast();
-        
+
         // Switch to multisig to accept ownership
         vm.startBroadcast(multisig);
         console.log("Accepting ownership as multisig...");
@@ -216,18 +216,18 @@ contract DeployAllVersions is Script {
 
     function _verifyDeployments(DeployedContracts memory deployed, Deployment memory deployment) private view {
         console.log("\n--- Verifying Deployments ---");
-        
+
         // Verify contract addresses
         require(address(deployed.factoryV2_1) != address(0), "Factory V2.1 deployment failed");
         require(address(deployed.factoryV2_2) != address(0), "Factory V2.2 deployment failed");
         require(address(deployed.routerV2_1) != address(0), "Router V2.1 deployment failed");
         require(address(deployed.routerV2_2) != address(0), "Router V2.2 deployment failed");
         require(address(deployed.quoter) != address(0), "Quoter deployment failed");
-        
+
         // Verify ownership
         require(deployed.factoryV2_1.owner() == deployment.multisig, "Factory V2.1 ownership not transferred");
         require(deployed.factoryV2_2.owner() == deployment.multisig, "Factory V2.2 ownership not transferred");
-        
+
         // Verify implementations
         require(
             address(deployed.factoryV2_1.getLBPairImplementation()) == address(deployed.pairImplV2_1),
@@ -237,17 +237,17 @@ contract DeployAllVersions is Script {
             address(deployed.factoryV2_2.getLBPairImplementation()) == address(deployed.pairImplV2_2),
             "Factory V2.2 implementation not set"
         );
-        
+
         // Verify quote assets
         require(deployed.factoryV2_1.getNumberOfQuoteAssets() > 0, "No quote assets in V2.1");
         require(deployed.factoryV2_2.getNumberOfQuoteAssets() > 0, "No quote assets in V2.2");
-        
+
         console.log("All verifications passed!");
     }
 
     function _printDeploymentSummary(
-        string memory chainName, 
-        DeployedContracts memory deployed, 
+        string memory chainName,
+        DeployedContracts memory deployed,
         Deployment memory deployment
     ) private view {
         console.log("\n");
@@ -279,15 +279,21 @@ contract DeployAllVersions is Script {
 
     function _setupBSCTestnet() private {
         // Use environment variable for RPC URL if available, fallback to default
-        string memory rpcUrl = vm.envOr("BSC_TESTNET_RPC_URL", string("https://bsc-testnet.infura.io/v3/402b910bd7e24d2a866ac48ab3741e75"));
+        string memory rpcUrl =
+            vm.envOr("BSC_TESTNET_RPC_URL", string("https://bsc-testnet.infura.io/v3/402b910bd7e24d2a866ac48ab3741e75"));
 
         StdChains.setChain(
             "bnb_smart_chain_testnet",
-            StdChains.ChainData({
-                name: "BNB Smart Chain Testnet",
-                chainId: 97,
-                rpcUrl: rpcUrl
-            })
+            StdChains.ChainData({name: "BNB Smart Chain Testnet", chainId: 97, rpcUrl: rpcUrl})
+        );
+    }
+
+    function _setupBSC() private {
+        // Use environment variable for RPC URL if available, fallback to default
+        string memory rpcUrl = vm.envOr("BSC_RPC_URL", string("https://bsc-dataseed.bnbchain.org"));
+
+        StdChains.setChain(
+            "bnb_smart_chain", StdChains.ChainData({name: "BNB Smart Chain", chainId: 56, rpcUrl: rpcUrl})
         );
     }
 }
