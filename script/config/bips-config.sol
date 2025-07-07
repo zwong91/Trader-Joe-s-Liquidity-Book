@@ -27,7 +27,7 @@ library BipsConfig {
             preset.protocolShare = 0;
             preset.maxVolatilityAccumulated = 100_000;
             preset.sampleLifetime = 120;
-            preset.isOpen = false;
+            preset.isOpen = true;
         } else if (_bp == 2) {
             preset.binStep = 2;
             preset.baseFactor = 15_000;
@@ -38,7 +38,7 @@ library BipsConfig {
             preset.protocolShare = 0;
             preset.maxVolatilityAccumulated = 250_000;
             preset.sampleLifetime = 120;
-            preset.isOpen = false;
+            preset.isOpen = true;
         } else if (_bp == 5) {
             preset.binStep = 5;
             preset.baseFactor = 8_000;
@@ -49,7 +49,7 @@ library BipsConfig {
             preset.protocolShare = 0;
             preset.maxVolatilityAccumulated = 300_000;
             preset.sampleLifetime = 120;
-            preset.isOpen = false;
+            preset.isOpen = true;
         } else if (_bp == 10) {
             preset.binStep = 10;
             preset.baseFactor = 10_000;
@@ -60,7 +60,7 @@ library BipsConfig {
             preset.protocolShare = 0;
             preset.maxVolatilityAccumulated = 350_000;
             preset.sampleLifetime = 120;
-            preset.isOpen = false;
+            preset.isOpen = true;
         } else if (_bp == 15) {
             preset.binStep = 15;
             preset.baseFactor = 10_000;
@@ -71,7 +71,7 @@ library BipsConfig {
             preset.protocolShare = 0;
             preset.maxVolatilityAccumulated = 350_000;
             preset.sampleLifetime = 120;
-            preset.isOpen = false;
+            preset.isOpen = true;
         } else if (_bp == 20) {
             preset.binStep = 20;
             preset.baseFactor = 10_000;
@@ -82,7 +82,7 @@ library BipsConfig {
             preset.protocolShare = 0;
             preset.maxVolatilityAccumulated = 350_000;
             preset.sampleLifetime = 120;
-            preset.isOpen = false;
+            preset.isOpen = true;
         } else if (_bp == 25) {
             preset.binStep = 25;
             preset.baseFactor = 10_000;
@@ -93,7 +93,7 @@ library BipsConfig {
             preset.protocolShare = 0;
             preset.maxVolatilityAccumulated = 350_000;
             preset.sampleLifetime = 120;
-            preset.isOpen = false;
+            preset.isOpen = true;
         }
     }
 
