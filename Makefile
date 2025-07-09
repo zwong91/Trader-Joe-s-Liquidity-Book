@@ -43,7 +43,7 @@ deploy:
 	forge script $(DEPLOY_SCRIPT) --rpc-url $(RPC_TESTNET_URL) --broadcast
 
 verify:
-	forge verify-contract --chain-id 97 --etherscan-api-key $(ETHERSCAN_API_KEY)
+	forge verify-contract --chain-id 56 --etherscan-api-key $(ETHERSCAN_API_KEY)
 
 clone:
 	forge clone --chain bsc-testnet --etherscan-api-key $(ETHERSCAN_API_KEY) 0x7D73A6eFB91C89502331b2137c2803408838218b DLMM
