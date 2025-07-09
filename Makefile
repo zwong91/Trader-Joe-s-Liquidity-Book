@@ -19,7 +19,7 @@ WRAP_BNB_SCRIPT := script/wrap-bnb.s.sol
 WHITELIST_CHAPEL_SCRIPT := script/whitelist-quote-asset-chapel.s.sol
 WHITELIST_SCRIPT := script/whitelist-quote-asset-mainnet.s.sol
 
-.PHONY: all build coverage clean deploy verify pool whitelist wrap-bnb clone test test-unit test-integration test-no-fork
+.PHONY: all build coverage clean deploy deploy-testnet deploy-mainnet verify pool whitelist wrap-bnb clone test test-unit test-integration test-no-fork
 
 all: build
 
@@ -55,8 +55,16 @@ clean:
 local-deploy:
 	forge script $(DEPLOY_SCRIPT) --rpc-url http://localhost:8545 --broadcast --interactives 1
 
-deploy:
-	forge script $(DEPLOY_SCRIPT) --rpc-url $(RPC_TESTNET_URL) --broadcast
+# 部署到测试网
+deploy-testnet:
+	DEPLOY_TO_TESTNET=true forge script $(DEPLOY_SCRIPT) --rpc-url $(RPC_TESTNET_URL) --broadcast --verify --interactives 1
+
+# 部署到主网
+deploy-mainnet:
+	DEPLOY_TO_TESTNET=false forge script $(DEPLOY_SCRIPT) --rpc-url $(RPC_URL) --broadcast --verify --interactives 1
+
+# 默认部署到测试网 (向后兼容)
+deploy: deploy-testnet
 
 # 验证合约 - 需要提供合约地址
 # 使用方法: make verify ADDRESS=0x1234... CONTRACT=ContractName
@@ -82,9 +90,9 @@ verify-mainnet:
 		exit 1; \
 	fi
 	@if [ -z "$(CONTRACT)" ]; then \
-		forge verify-contract --chain-id 56 --etherscan-api-key $(ETHERSCAN_API_KEY) $(ADDRESS); \
+		forge verify-contract --chain bsc --etherscan-api-key $(ETHERSCAN_API_KEY) $(ADDRESS); \
 	else \
-		forge verify-contract --chain-id 56 --etherscan-api-key $(ETHERSCAN_API_KEY) $(ADDRESS) $(CONTRACT); \
+		forge verify-contract --chain bsc --etherscan-api-key $(ETHERSCAN_API_KEY) $(ADDRESS) $(CONTRACT); \
 	fi
 
 clone:
@@ -112,7 +120,9 @@ help:
 	@echo "  test-integration - 运行集成测试（需要存档节点）"
 	@echo "  coverage       - 生成测试覆盖率报告"
 	@echo "  clean          - 清理编译文件"
-	@echo "  deploy         - 部署到测试网"
+	@echo "  deploy         - 部署到测试网（默认）"
+	@echo "  deploy-testnet - 部署到测试网"
+	@echo "  deploy-mainnet - 部署到主网"
 	@echo "  local-deploy   - 部署到本地网络"
 	@echo "  verify         - 验证合约（需要 ADDRESS 和可选的 CONTRACT 参数）"
 	@echo "  verify-mainnet - 验证主网合约"

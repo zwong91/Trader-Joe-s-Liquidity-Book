@@ -32,10 +32,19 @@ contract DeployAllVersions is Script {
         LBQuoter quoter;
     }
 
-    string[] chains = ["bnb_smart_chain"];
+    string[] chains;
 
     function setUp() public {
-        _setupBSC();
+        // Check if DEPLOY_TO_TESTNET environment variable is set
+        bool deployToTestnet = vm.envOr("DEPLOY_TO_TESTNET", false);
+        
+        if (deployToTestnet) {
+            chains = ["bnb_smart_chain_testnet"];
+            _setupBSCTestnet();
+        } else {
+            chains = ["bnb_smart_chain"];
+            _setupBSC();
+        }
     }
 
     function run() public {
@@ -280,7 +289,7 @@ contract DeployAllVersions is Script {
     function _setupBSCTestnet() private {
         // Use environment variable for RPC URL if available, fallback to default
         string memory rpcUrl =
-            vm.envOr("BSC_TESTNET_RPC_URL", string("https://bsc-testnet.infura.io/v3/402b910bd7e24d2a866ac48ab3741e75"));
+            vm.envOr("BSC_RPC_TESTNET_URL", string("https://data-seed-prebsc-1-s1.bnbchain.org:8545"));
 
         StdChains.setChain(
             "bnb_smart_chain_testnet",
@@ -290,7 +299,7 @@ contract DeployAllVersions is Script {
 
     function _setupBSC() private {
         // Use environment variable for RPC URL if available, fallback to default
-        string memory rpcUrl = vm.envOr("BSC_RPC_URL", string("https://bsc-dataseed.bnbchain.org"));
+        string memory rpcUrl = vm.envOr("BSC_RPC_MAINNET_URL", string("https://bsc-dataseed.bnbchain.org"));
 
         StdChains.setChain(
             "bnb_smart_chain", StdChains.ChainData({name: "BNB Smart Chain", chainId: 56, rpcUrl: rpcUrl})
