@@ -146,58 +146,21 @@ cast --help
 
 ___
 
-## BSC Testnet Deployment
-
-This project has been successfully deployed to BSC Testnet with the following addresses:
-
-### Core Contracts
-
-- **LBFactory V2.2**: `0x7D73A6eFB91C89502331b2137c2803408838218b`
-- **LBRouter V2.2**: `0xe98efCE22A8Ec0dd5dDF6C1A81B6ADD740176E98`
-- **LBQuoter**: `0x424EcD545DB744371650B39e353339E9BB8fB64A`
-- **LBPair Implementation**: `0xb7C6C0711C98370bA01C79c8d7BfBa9afb6d7848`
-
-### Example Pool
-
-- **WBNB/USDT Pool**: `0xa871c952B96ad832ef4B12F1b96B5244a4106090`
-  - Bin Step: 25 (0.25%)
-  - Active ID: 8388608 (1:1 ratio)
-
-### Deployment Scripts
-
-The following scripts are available for testing:
-
-```bash
-# Create a liquidity pool
-forge script script/create-pool.s.sol --rpc-url bsc_testnet --broadcast
-
-# Add liquidity to existing pool
-forge script script/add-liquidity.s.sol --rpc-url bsc_testnet --broadcast
-
-# Perform token swaps
-forge script script/swap.s.sol --rpc-url bsc_testnet --broadcast
-
-# Wrap BNB to WBNB
-forge script script/wrap-bnb.s.sol --rpc-url bsc_testnet --broadcast
-```
-
 ### Environment Setup
 
 Create a `.env` file with:
 
 ```env
+# BSC Testnet 私钥
 PRIVATE_KEY=0xYourPrivateKeyHere
+
+# BSCScan API Key（用于验证合约）https://etherscan.io/apidashboard
 ETHERSCAN_API_KEY=YourBSCScanApiKeyHere
+
+BSC_RPC_MAINNET_URL=https://bsc-dataseed.bnbchain.org
+BSC_RPC_TESTNET_URL=https://data-seed-prebsc-1-s1.bnbchain.org:8545
+
 ```
-
-### Network Configuration
-
-BSC Testnet details:
-
-- **Chain ID**: 97
-- **RPC URL**: <https://data-seed-prebsc-1-s1.bnbchain.org:8545>
-- **Explorer**: <https://testnet.bscscan.com>
-- **Faucet**: <https://testnet.bnbchain.org/faucet-smart>
 
 ### Test Results
 

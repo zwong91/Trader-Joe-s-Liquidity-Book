@@ -15,11 +15,13 @@ RPC_URL ?= $(BSC_RPC_MAINNET_URL)
 # 脚本和日志文件
 DEPLOY_SCRIPT := script/deploy-core.s.sol
 POOL_SCRIPT := script/create-pool.s.sol
+ADD_LIQUIDITY_SCRIPT := script/add-liquidity.s.sol
+SWAP_SCRIPT := script/swap.s.sol
 WRAP_BNB_SCRIPT := script/wrap-bnb.s.sol
 WHITELIST_CHAPEL_SCRIPT := script/whitelist-quote-asset-chapel.s.sol
 WHITELIST_SCRIPT := script/whitelist-quote-asset-mainnet.s.sol
 
-.PHONY: all build coverage clean deploy deploy-testnet deploy-mainnet verify pool whitelist wrap-bnb clone test test-unit test-integration test-no-fork
+.PHONY: all build coverage clean deploy deploy-testnet deploy-mainnet verify pool add-liquidity swap wrap-bnb clone test test-unit test-integration test-no-fork
 
 all: build
 
@@ -99,10 +101,16 @@ clone:
 	forge clone --chain bsc-testnet --etherscan-api-key $(ETHERSCAN_API_KEY) 0x7D73A6eFB91C89502331b2137c2803408838218b DLMM
 
 pool:
-	forge script $(POOL_SCRIPT):TestPoolScript --rpc-url $(RPC_TESTNET_URL) --broadcast
+	forge script $(POOL_SCRIPT) --rpc-url $(RPC_TESTNET_URL) --broadcast
+
+add-liquidity:
+	forge script $(ADD_LIQUIDITY_SCRIPT) --rpc-url $(RPC_TESTNET_URL) --broadcast
+
+swap:
+	forge script $(SWAP_SCRIPT) --rpc-url $(RPC_TESTNET_URL) --broadcast
 
 wrap-bnb:
-	forge script $(WRAP_BNB_SCRIPT):WrapBNBScript --rpc-url $(RPC_TESTNET_URL) --broadcast
+	forge script $(WRAP_BNB_SCRIPT) --rpc-url $(RPC_TESTNET_URL) --broadcast
 
 whitelist-chapel:
 	forge script $(WHITELIST_CHAPEL_SCRIPT):WhitelistQuoteAssetScript --rpc-url $(RPC_TESTNET_URL) --broadcast
@@ -127,7 +135,9 @@ help:
 	@echo "  verify         - 验证合约（需要 ADDRESS 和可选的 CONTRACT 参数）"
 	@echo "  verify-mainnet - 验证主网合约"
 	@echo "  pool           - 创建流动性池"
-	@echo "  wrap-bnb       - 包装 BNB"
+	@echo "  add-liquidity  - 向现有池添加流动性"
+	@echo "  swap           - 执行代币交换"
+	@echo "  wrap-bnb       - 包装 BNB 为 WBNB"
 	@echo "  whitelist-chapel - 添加测试网白名单"
 	@echo "  whitelist      - 添加主网白名单"
 	@echo ""
