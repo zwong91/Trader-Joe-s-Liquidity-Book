@@ -31,7 +31,7 @@ Foundry consists of:
 
 ## Install foundry
 
-Foundry documentation can be found in the [Foundry Book](https://book.getfoundry.sh/forge/index.html).
+Foundry documentation can be found in the [Foundry Book](https://getfoundry.sh/introduction/overview).
 
 ### On Linux and macOS
 
